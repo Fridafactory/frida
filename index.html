@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frida Social Media</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        body {
+            background: #f9f9f9;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+        .link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+        .link:hover {
+            transform: scale(1.03);
+        }
+        .link i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        #expired-message {
+            display: none; /* Başlangıçta gizli */
+            color: red;
+            font-size: 2em;
+            margin-top: 50px;
+        }
+    </style>
+<script defer data-domain="frida-factory.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script><script type="text/javascript" src="https://tiiny.host/ad-script.js"></script></head>
+<body>
+    <div id="content">
+        <h1>Follow Frida on Social Media</h1>
+        <div class="links">
+            <a class="link" href="https://facebook.com/MSDCOzakho" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            <a class="link" href="https://www.instagram.com/frida_iraq" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a class="link" href="https://snapchat.com/t/upOz6bAK" target="_blank"><i class="fab fa-snapchat"></i> Snapchat</a>
+            <a class="link" href="https://www.tiktok.com/@frida.iq" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a class="link" href="https://fridasoftdrinks.com/" target="_blank"><i class="fas fa-globe"></i> Official Website</a>
+        </div>
+    </div>
+
+    <div id="expired-message">
+        <h1>Expired!</h1>
+        <p>This page has expired.</p>
+    </div>
+
+    <script>
+        // Son kullanma tarihi: 2 Temmuz 2026 (YYYY, MM-1, DD)
+        // Ay değeri 0'dan başlar (Ocak=0, Temmuz=6)
+        const expirationDate = new Date(2026, 6, 2); 
+        const currentDate = new Date();
+
+        const contentDiv = document.getElementById('content');
+        const expiredMessageDiv = document.getElementById('expired-message');
+
+        if (currentDate > expirationDate) {
+            contentDiv.style.display = 'none'; // İçeriği gizle
+            expiredMessageDiv.style.display = 'block'; // Expired mesajını göster
+        } else {
+            contentDiv.style.display = 'block'; // İçeriği göster
+            expiredMessageDiv.style.display = 'none'; // Expired mesajını gizle
+        }
+    </script>
+</body>
+</html>
