@@ -1,88 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Frida Social Media</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        body {
-            background: #f9f9f9;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 400px;
-            margin: auto;
-        }
-        .link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            border-radius: 10px;
-            padding: 12px 20px;
-            text-decoration: none;
-            color: #000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease;
-        }
-        .link:hover {
-            transform: scale(1.03);
-        }
-        .link i {
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        #expired-message {
-            display: none; /* Başlangıçta gizli */
-            color: red;
-            font-size: 2em;
-            margin-top: 50px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frida Social Media</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: #000;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 0.6s forwards;
+    }
+
+    .link i {
+      margin-right: 14px;
+      font-size: 1.5em;
+      padding: 10px;
+      border-radius: 50%;
+      color: white;
+    }
+
+    /* Renkli ikonlar */
+    .link[href*="facebook"] i { background-color: #1877F2; }
+    .link[href*="instagram"] i { background-color: #E4405F; }
+    .link[href*="snapchat"] i { background-color: #FFFC00; color: #000; }
+    .link[href*="tiktok"] i { background-color: #000000; }
+    .link[href*="fridasoftdrinks"] i { background-color: #4CAF50; }
+
+    /* Hover efekti */
+    .link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Animasyon gecikmeleri */
+    .link:nth-child(1) { animation-delay: 0.1s; }
+    .link:nth-child(2) { animation-delay: 0.2s; }
+    .link:nth-child(3) { animation-delay: 0.3s; }
+    .link:nth-child(4) { animation-delay: 0.4s; }
+    .link:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #expired-message {
+      display: none;
+      color: red;
+      font-size: 2em;
+      margin-top: 50px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .link {
+        flex-direction: row;
+        justify-content: center;
+        font-size: 0.95em;
+      }
+      .link i {
+        font-size: 1.3em;
+        padding: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div id="content">
-        <h1>Follow Frida on Social Media</h1>
-        <div class="links">
-            <a class="link" href="https://facebook.com/MSDCOzakho" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
-            <a class="link" href="https://www.instagram.com/frida_iraq" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-            <a class="link" href="https://snapchat.com/t/upOz6bAK" target="_blank"><i class="fab fa-snapchat"></i> Snapchat</a>
-            <a class="link" href="https://www.tiktok.com/@frida.iq" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
-            <a class="link" href="https://fridasoftdrinks.com/" target="_blank"><i class="fas fa-globe"></i> Official Website</a>
-        </div>
+  <div id="content">
+    <h1>Follow Frida on Social Media</h1>
+    <div class="links">
+      <a class="link" href="https://facebook.com/MSDCOzakho" target="_blank"><i class="fab fa-facebook"></i>Facebook</a>
+      <a class="link" href="https://www.instagram.com/frida_iraq" target="_blank"><i class="fab fa-instagram"></i>Instagram</a>
+      <a class="link" href="https://snapchat.com/t/upOz6bAK" target="_blank"><i class="fab fa-snapchat"></i>Snapchat</a>
+      <a class="link" href="https://www.tiktok.com/@frida.iq" target="_blank"><i class="fab fa-tiktok"></i>TikTok</a>
+      <a class="link" href="https://fridasoftdrinks.com/" target="_blank"><i class="fas fa-globe"></i>Official Website</a>
     </div>
+  </div>
 
-    <div id="expired-message">
-        <h1>Expired!</h1>
-        <p>This page has expired.</p>
-    </div>
+  <div id="expired-message">
+    <h1>Expired!</h1>
+    <p>This page has expired.</p>
+  </div>
 
-    <script>
-        // Son kullanma tarihi: 2 Temmuz 2026 (YYYY, MM-1, DD)
-        // Ay değeri 0'dan başlar (Ocak=0, Temmuz=6)
-        const expirationDate = new Date(2026, 6, 2); 
-        const currentDate = new Date();
+  <script>
+    const expirationDate = new Date(2026, 6, 2);
+    const currentDate = new Date();
 
-        const contentDiv = document.getElementById('content');
-        const expiredMessageDiv = document.getElementById('expired-message');
+    const contentDiv = document.getElementById('content');
+    const expiredMessageDiv = document.getElementById('expired-message');
 
-        if (currentDate > expirationDate) {
-            contentDiv.style.display = 'none'; // İçeriği gizle
-            expiredMessageDiv.style.display = 'block'; // Expired mesajını göster
-        } else {
-            contentDiv.style.display = 'block'; // İçeriği göster
-            expiredMessageDiv.style.display = 'none'; // Expired mesajını gizle
-        }
-    </script>
+    if (currentDate > expirationDate) {
+      contentDiv.style.display = 'none';
+      expiredMessageDiv.style.display = 'block';
+    } else {
+      contentDiv.style.display = 'block';
+      expiredMessageDiv.style.display = 'none';
+    }
+  </script>
 </body>
 </html>
