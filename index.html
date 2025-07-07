@@ -5,15 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Frida Social Media</title>
   <link rel="icon" type="image/png" href="frida-logo.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Font Awesome CSS, async yükleme için 'preload' + 'onload' hilesi -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+
+  <!-- Google Fonts optimize ve font-display swap ekli -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
   <style>
+    /* Temel değişkenler */
     :root {
       --bg-light: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       --bg-dark: linear-gradient(135deg, #1a1a1a, #2e2e2e);
       --text-light: #000;
       --text-dark: #fff;
     }
+    /* Genel stiller */
     body {
       margin: 0;
       padding: 0;
@@ -32,9 +40,17 @@
     .logo {
       max-width: 200px;
       margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      height: auto;
+      width: 100%;
+      max-height: 80px;
+      object-fit: contain;
     }
     h1 {
       margin-bottom: 20px;
+      font-weight: 600;
     }
     .toggle-theme {
       position: absolute;
@@ -47,72 +63,60 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    .toggle-theme:hover {
+      background-color: #666;
     }
     .links {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       margin-top: 30px;
     }
     .link {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
       gap: 12px;
       background: white;
       border: 1px solid #ddd;
       border-radius: 16px;
-      padding: 15px 20px;
+      padding: 12px 20px;
       text-decoration: none;
       color: #000;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.07);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: slideIn 0.6s forwards;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
       font-weight: 600;
-      font-size: 1.1em;
+      font-size: 1.05em;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .link i {
-      font-size: 1.8em;
+      font-size: 1.6em;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       color: white;
       flex-shrink: 0;
     }
     .link.website img {
-      height: 32px;
+      height: 28px;
       width: auto;
       border-radius: 6px;
       flex-shrink: 0;
     }
     .link:hover {
       transform: scale(1.05);
-      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-    }
-    .link:nth-child(1) { animation-delay: 0.1s; }
-    .link:nth-child(2) { animation-delay: 0.2s; }
-    .link:nth-child(3) { animation-delay: 0.3s; }
-    .link:nth-child(4) { animation-delay: 0.4s; }
-    .link:nth-child(5) { animation-delay: 0.5s; }
-    .link:nth-child(6) { animation-delay: 0.6s; }
-
-    @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
     /* Sosyal medya renkleri */
     .link.facebook i {
       background-color: #1877F2;
     }
     .link.instagram i {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
     }
     .link.snapchat i {
       background-color: #FFFC00 !important;
@@ -121,8 +125,8 @@
       box-shadow: none;
     }
     .link.tiktok i {
-      background-color: #000000;
-      color: #ffffff;
+      background-color: #000;
+      color: #fff;
     }
     .link.whatsapp i {
       background-color: #25D366;
@@ -155,6 +159,7 @@
       background: #eee;
       color: #000;
     }
+    /* Responsive */
     @media (max-width: 480px) {
       .link {
         font-size: 0.95em;
@@ -163,54 +168,61 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="mainContent">
     <button class="toggle-theme" onclick="toggleTheme()">🌗 Mode</button>
-    <img src="frida-logo.png" alt="Frida Logo" class="logo" />
+    <img src="frida-logo.png" alt="Frida Logo" class="logo" loading="lazy" />
     <h1>Follow Frida on Social Media</h1>
-    <div class="links" id="linkContainer">
-      <a class="link facebook" href="https://facebook.com/MSDCOzakho" target="_blank" rel="noopener">
-        <i class="fab fa-facebook-f"></i> Facebook
+    <div class="links" id="linkContainer" aria-label="Social Media Links">
+      <a class="link facebook" href="https://facebook.com/MSDCOzakho" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
       </a>
-      <a class="link instagram" href="https://www.instagram.com/frida_iraq" target="_blank" rel="noopener">
-        <i class="fab fa-instagram"></i> Instagram
+      <a class="link instagram" href="https://www.instagram.com/frida_iraq" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
       </a>
-      <a class="link snapchat" href="https://snapchat.com/t/upOz6bAK" target="_blank" rel="noopener">
-        <i class="fab fa-snapchat-ghost"></i> Snapchat
+      <a class="link snapchat" href="https://snapchat.com/t/upOz6bAK" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-snapchat-ghost" aria-hidden="true"></i> Snapchat
       </a>
-      <a class="link tiktok" href="https://www.tiktok.com/@frida.iq" target="_blank" rel="noopener">
-        <i class="fab fa-tiktok"></i> TikTok
+      <a class="link tiktok" href="https://www.tiktok.com/@frida.iq" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-tiktok" aria-hidden="true"></i> TikTok
       </a>
-      <a class="link whatsapp" href="https://wa.me/9647704646868" target="_blank" rel="noopener">
-        <i class="fab fa-whatsapp"></i> WhatsApp
+      <a class="link whatsapp" href="https://wa.me/9647704646868" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
       </a>
-      <a class="link website" href="https://fridasoftdrinks.com/" target="_blank" rel="noopener">
-        <img src="frida-logo.png" alt="Frida Logo" />
+      <a class="link website" href="https://fridasoftdrinks.com/" target="_blank" rel="noopener noreferrer">
+        <img src="frida-logo.png" alt="Frida Logo" width="28" height="28" loading="lazy" />
         Official Website
       </a>
     </div>
 
     <h2 style="margin-top: 40px;">Visit Us</h2>
-    <div class="map-container">
+    <div class="map-container" aria-label="Map Location">
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6362.987384458154!2d42.5094!3d37.117168!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40090536c8418797%3A0x352b9012d25d68b5!2sFRIDA%20carbonated%20drink!5e0!3m2!1sen!2siq!4v1751870854505!5m2!1sen!2siq" 
-        width="100%" height="300" style="border:0; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        width="100%" height="300" style="border:0; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="FRIDA Carbonated Drink Location">
       </iframe>
     </div>
   </div>
 
-  <div id="expired-message">
+  <div id="expired-message" role="alert" aria-live="assertive" style="display:none;">
     <h1>Expired!</h1>
     <p>This page has expired.</p>
   </div>
 
   <script>
+    // Tema değişimi toggle fonksiyonu
     function toggleTheme() {
       document.body.classList.toggle('dark');
     }
-    const expirationDate = new Date(2026, 6, 2);
+
+    // Pasif event listener eklenmesi (isteğe bağlı ama scroll performansı için önerilir)
+    document.addEventListener('scroll', () => {}, { passive: true });
+
+    // Sayfa süresi kontrolü
+    const expirationDate = new Date(2026, 6, 2); // 2 Temmuz 2026
     const currentDate = new Date();
-    const containerDiv = document.querySelector('.container');
+    const containerDiv = document.getElementById('mainContent');
     const expiredMessageDiv = document.getElementById('expired-message');
+
     if (currentDate > expirationDate) {
       containerDiv.style.display = 'none';
       expiredMessageDiv.style.display = 'block';
