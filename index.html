@@ -7,24 +7,70 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-light: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      --bg-dark: linear-gradient(135deg, #1a1a1a, #2e2e2e);
+      --text-light: #000;
+      --text-dark: #fff;
+    }
+
     body {
-      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      margin: 0;
+      padding: 0;
       font-family: 'Inter', sans-serif;
-      text-align: center;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
       padding: 40px 20px;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 120px;
+      margin-bottom: 20px;
     }
 
     h1 {
-      color: #333;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 14px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .menu-toggle {
+      display: none;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     .links {
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 400px;
-      margin: auto;
+      margin-top: 30px;
     }
 
     .link {
@@ -52,20 +98,11 @@
       color: white;
     }
 
-    /* Renkli ikonlar */
-    .link[href*="facebook"] i { background-color: #1877F2; }
-    .link[href*="instagram"] i { background-color: #E4405F; }
-    .link[href*="snapchat"] i { background-color: #FFFC00; color: #000; }
-    .link[href*="tiktok"] i { background-color: #000000; }
-    .link[href*="fridasoftdrinks"] i { background-color: #4CAF50; }
-
-    /* Hover efekti */
     .link:hover {
       transform: scale(1.05);
       box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
     }
 
-    /* Animasyon gecikmeleri */
     .link:nth-child(1) { animation-delay: 0.1s; }
     .link:nth-child(2) { animation-delay: 0.2s; }
     .link:nth-child(3) { animation-delay: 0.3s; }
@@ -79,6 +116,19 @@
       }
     }
 
+    /* Sosyal medya renkleri */
+    .link[href*="facebook"] i { background-color: #1877F2; }
+    .link[href*="instagram"] i { background-color: #E4405F; }
+    .link[href*="snapchat"] i { background-color: #FFFC00; color: #000; }
+    .link[href*="tiktok"] i { background-color: #000000; }
+    .link[href*="fridasoftdrinks"] i { background-color: #4CAF50; }
+
+    .visitor-count {
+      margin-top: 30px;
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
     #expired-message {
       display: none;
       color: red;
@@ -86,49 +136,101 @@
       margin-top: 50px;
     }
 
-    /* Responsive */
+    /* Dark mode */
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body.dark .link {
+      background: #2a2a2a;
+      color: #fff;
+      border-color: #444;
+    }
+
+    body.dark .link i {
+      color: white;
+    }
+
+    body.dark .toggle-theme {
+      background: #eee;
+      color: #000;
+    }
+
+    /* Hamburger menu mobile */
     @media (max-width: 480px) {
-      .link {
-        flex-direction: row;
-        justify-content: center;
-        font-size: 0.95em;
+      .menu-toggle {
+        display: block;
       }
-      .link i {
-        font-size: 1.3em;
-        padding: 8px;
+
+      .links {
+        display: none;
+        flex-direction: column;
+        margin-top: 20px;
+      }
+
+      .links.show {
+        display: flex;
+      }
+
+      .link {
+        font-size: 0.95em;
       }
     }
   </style>
 </head>
 <body>
-  <div id="content">
+  <button class="toggle-theme" onclick="toggleTheme()">🌗 Mode</button>
+  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+
+  <div class="container">
+    <img src="frida-logo.png" alt="Frida Logo" class="logo" />
     <h1>Follow Frida on Social Media</h1>
-    <div class="links">
-      <a class="link" href="https://facebook.com/MSDCOzakho" target="_blank"><i class="fab fa-facebook"></i>Facebook</a>
-      <a class="link" href="https://www.instagram.com/frida_iraq" target="_blank"><i class="fab fa-instagram"></i>Instagram</a>
-      <a class="link" href="https://snapchat.com/t/upOz6bAK" target="_blank"><i class="fab fa-snapchat"></i>Snapchat</a>
-      <a class="link" href="https://www.tiktok.com/@frida.iq" target="_blank"><i class="fab fa-tiktok"></i>TikTok</a>
-      <a class="link" href="https://fridasoftdrinks.com/" target="_blank"><i class="fas fa-globe"></i>Official Website</a>
+
+    <div class="links" id="linkContainer">
+      <a class="link" href="https://facebook.com/MSDCOzakho" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a class="link" href="https://www.instagram.com/frida_iraq" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a class="link" href="https://snapchat.com/t/upOz6bAK" target="_blank"><i class="fab fa-snapchat"></i> Snapchat</a>
+      <a class="link" href="https://www.tiktok.com/@frida.iq" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a>
+      <a class="link" href="https://fridasoftdrinks.com/" target="_blank"><i class="fas fa-globe"></i> Official Website</a>
+    </div>
+
+    <div class="visitor-count" id="visitorCount"></div>
+    <div id="expired-message">
+      <h1>Expired!</h1>
+      <p>This page has expired.</p>
     </div>
   </div>
 
-  <div id="expired-message">
-    <h1>Expired!</h1>
-    <p>This page has expired.</p>
-  </div>
-
   <script>
-    const expirationDate = new Date(2026, 6, 2);
+    // Ziyaretçi sayacı (localStorage)
+    let visitCount = localStorage.getItem('visit-count') || 0;
+    visitCount++;
+    localStorage.setItem('visit-count', visitCount);
+    document.getElementById('visitorCount').innerText = `Visitor Count: ${visitCount}`;
+
+    // Karanlık mod
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+
+    // Menü aç-kapat
+    function toggleMenu() {
+      document.getElementById('linkContainer').classList.toggle('show');
+    }
+
+    // Expired kontrolü
+    const expirationDate = new Date(2026, 6, 2); 
     const currentDate = new Date();
 
-    const contentDiv = document.getElementById('content');
+    const contentDiv = document.getElementById('linkContainer');
     const expiredMessageDiv = document.getElementById('expired-message');
 
     if (currentDate > expirationDate) {
       contentDiv.style.display = 'none';
       expiredMessageDiv.style.display = 'block';
     } else {
-      contentDiv.style.display = 'block';
+      contentDiv.style.display = 'flex';
       expiredMessageDiv.style.display = 'none';
     }
   </script>
