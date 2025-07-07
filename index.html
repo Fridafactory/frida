@@ -3,25 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Frida Social Media</title>
+  <title>Frida - Follow Us on Social Media | Frida Iraq</title>
+  <meta name="description" content="Discover and connect with Frida, the leading carbonated drinks brand in Iraq. Follow us on Instagram, TikTok, WhatsApp, and more!" />
+  <meta name="keywords" content="Frida, Frida Iraq, Soft Drinks, TikTok, Instagram, WhatsApp, Frida Soft Drinks, Carbonated Drinks Iraq" />
+  <meta name="author" content="Frida Soft Drinks" />
+  <link rel="canonical" href="https://fridasoftdrinks.com/social" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Frida - Follow Us on Social Media" />
+  <meta property="og:description" content="Connect with Frida Iraq on Instagram, TikTok, WhatsApp and more." />
+  <meta property="og:image" content="https://fridasoftdrinks.com/frida-og-image.png" />
+  <meta property="og:url" content="https://fridasoftdrinks.com/social" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Frida Soft Drinks" />
+
+  <!-- Twitter Card Meta -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Frida - Follow Us Online" />
+  <meta name="twitter:description" content="Frida Soft Drinks Iraq - Find us on social media platforms." />
+  <meta name="twitter:image" content="https://fridasoftdrinks.com/frida-og-image.png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Frida Soft Drinks",
+    "url": "https://fridasoftdrinks.com",
+    "logo": "https://fridasoftdrinks.com/frida-logo.png",
+    "sameAs": [
+      "https://facebook.com/MSDCOzakho",
+      "https://www.instagram.com/frida_iraq",
+      "https://www.tiktok.com/@frida.iq",
+      "https://wa.me/9647704646868",
+      "https://fridasoftdrinks.com"
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="frida-logo.png" />
 
-  <!-- Font Awesome CSS, async yükleme için 'preload' + 'onload' hilesi -->
+  <!-- Font Awesome -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
 
-  <!-- Google Fonts optimize ve font-display swap ekli -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
-    /* Temel değişkenler */
     :root {
       --bg-light: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       --bg-dark: linear-gradient(135deg, #1a1a1a, #2e2e2e);
       --text-light: #000;
       --text-dark: #fff;
     }
-    /* Genel stiller */
     body {
       margin: 0;
       padding: 0;
@@ -111,7 +147,6 @@
       transform: scale(1.05);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
-    /* Sosyal medya renkleri */
     .link.facebook i {
       background-color: #1877F2;
     }
@@ -142,7 +177,6 @@
     .map-container {
       margin-top: 40px;
     }
-    /* Dark mode */
     body.dark {
       background: var(--bg-dark);
       color: var(--text-dark);
@@ -159,7 +193,6 @@
       background: #eee;
       color: #000;
     }
-    /* Responsive */
     @media (max-width: 480px) {
       .link {
         font-size: 0.95em;
@@ -172,21 +205,21 @@
     <button class="toggle-theme" onclick="toggleTheme()">🌗 Mode</button>
     <img src="frida-logo.png" alt="Frida Logo" class="logo" loading="lazy" />
     <h1>Follow Frida on Social Media</h1>
-    <div class="links" id="linkContainer" aria-label="Social Media Links">
+    <div class="links" aria-label="Social Media Links">
       <a class="link facebook" href="https://facebook.com/MSDCOzakho" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
+        <i class="fab fa-facebook-f"></i> Facebook
       </a>
       <a class="link instagram" href="https://www.instagram.com/frida_iraq" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+        <i class="fab fa-instagram"></i> Instagram
       </a>
       <a class="link snapchat" href="https://snapchat.com/t/upOz6bAK" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-snapchat-ghost" aria-hidden="true"></i> Snapchat
+        <i class="fab fa-snapchat-ghost"></i> Snapchat
       </a>
       <a class="link tiktok" href="https://www.tiktok.com/@frida.iq" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-tiktok" aria-hidden="true"></i> TikTok
+        <i class="fab fa-tiktok"></i> TikTok
       </a>
       <a class="link whatsapp" href="https://wa.me/9647704646868" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+        <i class="fab fa-whatsapp"></i> WhatsApp
       </a>
       <a class="link website" href="https://fridasoftdrinks.com/" target="_blank" rel="noopener noreferrer">
         <img src="frida-logo.png" alt="Frida Logo" width="28" height="28" loading="lazy" />
@@ -209,16 +242,13 @@
   </div>
 
   <script>
-    // Tema değişimi toggle fonksiyonu
     function toggleTheme() {
       document.body.classList.toggle('dark');
     }
 
-    // Pasif event listener eklenmesi (isteğe bağlı ama scroll performansı için önerilir)
     document.addEventListener('scroll', () => {}, { passive: true });
 
-    // Sayfa süresi kontrolü
-    const expirationDate = new Date(2026, 6, 2); // 2 Temmuz 2026
+    const expirationDate = new Date(2026, 6, 2);
     const currentDate = new Date();
     const containerDiv = document.getElementById('mainContent');
     const expiredMessageDiv = document.getElementById('expired-message');
